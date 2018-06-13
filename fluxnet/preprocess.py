@@ -25,12 +25,20 @@ def format_dates(row):
     elif len(timestamp) == 8:
         # Daily values
         dt = datetime.strptime(timestamp, fmt)
+        # Check if the date is a leap year, in that case retun None so that the
+        # row can be dropped later.
+        if timestamp[4:] == '0229':
+            row['Month'] = None
+            row['Day'] = None
+            row['MonthDay'] = None
+            row['DOY'] = None
+        else:
+            row['Month'] = timestamp[4:6]
+            row['Day']   = timestamp[6:]
+            row['MonthDay'] = timestamp[4:]
+            # LPJ-GUESS day start at 0 but julian days start at 1
+            row['DOY'] = int(dt.strftime('%j')) - 1
         
-        row['Month'] = timestamp[4:6]
-        row['Day']   = timestamp[6:]
-        row['MonthDay'] = timestamp[4:]
-        # LPJ-GUESS day start at 0 but julian days start at 1
-        row['DOY'] = int(dt.strftime('%j')) - 1
     else:
         # Should not happen
         print('invalid timeformat at timestamp {}'.format(timestamp))
@@ -40,7 +48,7 @@ def format_dates(row):
 """
 SETTINGS
 """ 
-BASE_DIR   = '/dauta/FLUXNET_from_Michael/fluxnet benchmark/'
+BASE_DIR   = 'D:\\benchmark_fluxnet_runs\\data' #'/dauta/FLUXNET_from_Michael/fluxnet benchmark/'
 INPUT_DIR  = 'raw'
 OUTPUT_DIR = 'vut_ref'
 
@@ -76,7 +84,12 @@ for fn in os.listdir(os.path.join(BASE_DIR, INPUT_DIR)):
     site = fn.split('_')[1]
     print('Extracting data from site {}'.format(site))
     site_data = sitelist[sitelist['SITE_ID'] == site]
-    zf = ZipFile(os.path.join(BASE_DIR, INPUT_DIR, fn))
+    try:
+        zf = ZipFile(os.path.join(BASE_DIR, INPUT_DIR, fn))
+    except:
+        print('Bad file at site {}'.format(site))
+        continue
+        
     for f in zf.namelist():
         if '_FULLSET_DD_' in f:
             daily_raw = f
@@ -89,6 +102,8 @@ for fn in os.listdir(os.path.join(BASE_DIR, INPUT_DIR)):
     
     df_daily = df_daily.apply(format_dates, axis=1)
     df_monthly = df_monthly.apply(format_dates, axis=1)
+    # Drop 29th of February
+    df_daily.dropna(inplace=True)
     
     lon = site_data['LOCATION_LONG'].values[0]
     lat = site_data['LOCATION_LAT'].values[0]
@@ -96,6 +111,10 @@ for fn in os.listdir(os.path.join(BASE_DIR, INPUT_DIR)):
     
     df_daily['Lon'] = lon; df_daily['Lat'] = lat; df_daily['IGBP'] = igbp
     df_monthly['Lon'] = lon; df_monthly['Lat'] = lat; df_monthly['IGBP'] = igbp
+
+    if len(df_daily) % 365 != 0:
+        print('Skipping location at site {}. Not full years'.format(site))
+        continue
     
     daily = daily.append(df_daily[['Lon', 'Lat', 'Year', 'DOY', 'IGBP']+benchmark_cols])
     monthly = monthly.append(df_monthly[['Lon', 'Lat', 'Year', 'Month', 'IGBP']+benchmark_cols])
@@ -104,6 +123,7 @@ for fn in os.listdir(os.path.join(BASE_DIR, INPUT_DIR)):
                                                         sep='\t',
                                                         index=False, header=False,
                                                         float_format='%.3f')
+    
     
 daily.rename(columns=column_map, inplace=True)
 monthly.rename(columns=column_map, inplace=True)
