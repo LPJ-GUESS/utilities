@@ -9,7 +9,7 @@ Need to have all three files in the same folder, have matlab installed (set to t
 PATH_TO_RUNDIR: should be to the level rundir/exp-name/output/lpjg
 
 # Options:
-  -r --reference       <PATH> to a dir with aggregated LPJG reference run
+  -r --reference       <PATH> to a dir with aggregated LPJG reference run (should timewise overlap with current run)
   
   -o --outdir          <PATH> to store output in, DEFAULT='./'
   
