@@ -1,4 +1,4 @@
-# ec-earth
+# EC-Earth
 
 # A simple LPJ-GUESS analysis tool for the EC-Earth community
 
