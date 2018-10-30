@@ -4,9 +4,9 @@
 
 Need to have all three files in the same folder, have matlab installed (set to tetralith matlab in lpjg_fast_analysis.sh at the moment) and have LPJ-GUESS standard tools installed (aslice and tslice, installed on tetralith)
 
-# Usage: lpjg_fast_analysis.sh <PATH_TO_RUNDIR> [-o <OUTPATH>] [-r <REFPATH>] [fwah]"
+# Usage: lpjg_fast_analysis.sh <PATH_TO_RUNDIR> [-o < OUTPATH>] [-r <REFPATH>] [fwah]
 
-PATH_TO_RUNDIR: should be to the level <rundir>/<exp-name>/output/lpjg"
+PATH_TO_RUNDIR: should be to the level rundir/exp-name/output/lpjg
 
 # Options:
   -r --reference       <PATH> to a dir with aggregated LPJG reference run"
