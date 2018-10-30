@@ -9,9 +9,14 @@ Need to have all three files in the same folder, have matlab installed (set to t
 PATH_TO_RUNDIR: should be to the level rundir/exp-name/output/lpjg
 
 # Options:
-  -r --reference       <PATH> to a dir with aggregated LPJG reference run"
-  -o --outdir          <PATH> to store output in, DEFAULT='./'"
-  -f --force_aggregate -> do exactly that, in case a previous aggregation has failed..."
-  -w --overwrite       if outdir exists force overwriting of analysis data"
-  -a --aggregate_all   aggregate the full set of LPJG output files"
+  -r --reference       <PATH> to a dir with aggregated LPJG reference run
+  
+  -o --outdir          <PATH> to store output in, DEFAULT='./'
+  
+  -f --force_aggregate -> do exactly that, in case a previous aggregation has failed...
+  
+  -w --overwrite       if outdir exists force overwriting of analysis data
+  
+  -a --aggregate_all   aggregate the full set of LPJG output files
+  
   -h --help            help
