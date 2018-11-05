@@ -1,5 +1,9 @@
 # EC-Earth
 
+# Prerequisits:
+
+Matlab or Octave and a version of guess-utils (to be added..!)
+
 # A simple LPJ-GUESS analysis tool for the EC-Earth community
 
 Need to have all three files in the same folder, have matlab installed (set to tetralith matlab in lpjg_fast_analysis.sh at the moment) and have LPJ-GUESS standard tools installed (aslice and tslice, installed on tetralith)

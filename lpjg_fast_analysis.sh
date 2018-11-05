@@ -77,6 +77,14 @@ then
     exit 1
 fi 
 
+# check whether matlab or octave(latter to be tested) are loaded/exist
+if [ ! which matlab ]
+then 
+    echo "No version of matlab found."
+    echo "Please load module"
+    exit 1
+fi
+
 # input dir
 if [ -d $1 ]
 then
@@ -175,8 +183,6 @@ if [[ $old_run == "_none_" ]]
 then 
     echo "No reference run chosen. Only plotting current run."; echo""
 fi
-
-module load MATLAB/R2018a-nsc1
 
 aslice $outputdir/$run/cflux.out -sum 'kg/m2->Pg' -o $outputdir/$run/cflux_Pg.txt
 aslice $outputdir/$run/cpool.out -sum 'kg/m2->Pg' -o $outputdir/$run/cpool_Pg.txt
