@@ -17,7 +17,7 @@ if (Test-Path $OFILE) {
 }
 
 for ($p=0; $p -lt $K_PASS.length; $p++) {
-	for ($s=0; $s -lt $K_PASS.length; $s++) {
+	for ($s=0; $s -lt $K_SLOW.length; $s++) {
 		$dir = "PASS_"+$p+"_SLOW_"+$s
 		
 		#Remove old directories if they exist
